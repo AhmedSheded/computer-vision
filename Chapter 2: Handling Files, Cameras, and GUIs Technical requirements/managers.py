@@ -126,22 +126,22 @@ class WindowManager(object):
         self._windowName = windowName
         self._isWindowCreated = False
 
-        @property
-        def isWindowCreated(self):
-            return self._isWindowCreated
+    @property
+    def isWindowCreated(self):
+        return self._isWindowCreated
 
-        def createWindow(self):
-            cv2.namedWindow(self._windowName)
-            self._isWindowCreated = True
+    def createWindow(self):
+        cv2.namedWindow(self._windowName)
+        self._isWindowCreated = True
 
-        def show(self, frame):
-            cv2.imshow(self._windowName, frame)
+    def show(self, frame):
+        cv2.imshow(self._windowName, frame)
 
-        def destroyWindow(self):
-            cv2.destroyWindow(self._windowName)
-            self._isWindowCreated = False
+    def destroyWindow(self):
+        cv2.destroyWindow(self._windowName)
+        self._isWindowCreated = False
 
-        def processEvents(self):
-            keycode = cv2.waitKey(1)
-            if self.keypressCallback is not None and keycode != -1:
-                self.keypressCallback(keycode)
+    def processEvents(self):
+        keycode = cv2.waitKey(1)
+        if self.keypressCallback is not None and keycode != -1:
+            self.keypressCallback(keycode)
