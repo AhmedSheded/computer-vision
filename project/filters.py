@@ -5,7 +5,7 @@ import utils
 
 def strokeEdges(src, dst, blurKsize=7, edgKsize=5):
     if blurKsize >= 3:
-        blurredSrc = cv2.meidanBlur(src, blurKsize)
+        blurredSrc = cv2.medianBlur(src, blurKsize)
         graySrc = cv2.cvtColor(blurredSrc, cv2.COLOR_BGR2GRAY)
     else:
         graySrc = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
@@ -25,7 +25,7 @@ class VConvolutionFilter(object):
 
     def apply(self, src, dst):
         """Apply the filter with a BGR or gray source/destinatin."""
-        cv2.fillter2D(src, -1, self._kernal, dst)
+        cv2.filter2D(src, -1, self._kernal, dst)
 
 
 class SharpenFilter(VConvolutionFilter):
@@ -44,3 +44,24 @@ class FindEdgesFilter(VConvolutionFilter):
                            [-1, 8, -1],
                            [-1, -1, -1]])
         VConvolutionFilter.__init__(self, kernal)
+
+
+class BlurFilter(VConvolutionFilter):
+    """A blure filter with a 2-pixel radius."""
+    def __init__(self):
+        kernal = np.array([[0.04, 0.04, 0.04, 0.04, 0.04],
+                           [0.04, 0.04, 0.04, 0.04, 0.04],
+                           [0.04, 0.04, 0.04, 0.04, 0.04],
+                           [0.04, 0.04, 0.04, 0.04, 0.04],
+                           [0.04, 0.04, 0.04, 0.04, 0.04]])
+        VConvolutionFilter.__init__(self, kernal)
+
+
+class EmbossFilter(VConvolutionFilter):
+    """An emboss filter with a 1-pixel radius."""
+    def __init__(self):
+        kernel = np.array([[-2, -1, 0],
+                              [-1, 1, 1],
+                              [0, 1, 2]])
+        VConvolutionFilter.__init__(self, kernel)
+

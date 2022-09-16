@@ -1,4 +1,5 @@
 import cv2
+import filters
 from managers import WindowManager, CaptureManager
 
 
@@ -6,6 +7,7 @@ class Cameo(object):
     def __init__(self):
         self._windowManager = WindowManager('Cameo', self.onKeypress)
         self._captureManager = CaptureManager(cv2.VideoCapture(0), self._windowManager, True)
+        self._blurFilter = filters.BlurFilter()
 
     def run(self):
         """Run the main loop."""
@@ -14,8 +16,8 @@ class Cameo(object):
             self._captureManager.enterFrame()
             frame = self._captureManager.frame
             if frame is not None:
-                # TODO: Filter the frame (Chapter 3).
-                pass
+                filters.strokeEdges(frame, frame)
+                self._blurFilter.apply(frame, frame)
             self._captureManager.exitFrame()
             self._windowManager.processEvents()
 
@@ -36,6 +38,5 @@ class Cameo(object):
             self._windowManager.destroyWindow()
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     Cameo().run()
-#%%
